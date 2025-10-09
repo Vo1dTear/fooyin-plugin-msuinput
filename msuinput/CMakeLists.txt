@@ -24,10 +24,3 @@ create_fooyin_plugin(
         msusettingswidget.cpp
         msusettingswidget.h
 )
-
-# Install the plugin into the standard user or system plugin directory
-include(GNUInstallDirs)
-install(
-    TARGETS msuinput
-    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/fooyin/plugins"
-)
