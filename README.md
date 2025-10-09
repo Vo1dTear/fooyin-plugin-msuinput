@@ -1,80 +1,70 @@
 # Fooyin MSU-1 Plugin
 
-**Fooyin MSU-1 Plugin** is a CMake project that automatically downloads **Fooyin** and integrates the `msuinput` plugin into the Fooyin source tree.
+**Fooyin MSU-1 Plugin** is a CMake project that builds the `msuinput` plugin for Fooyin.
+
+---
 
 ## Requirements
 
 * CMake ≥ 3.16
 * Git
+* Ninja
 * A C++ compiler (tested with GCC 15.2.1)
+
+---
 
 ## Dependencies
 
-Before building this project, make sure you have all dependencies required by Fooyin.
-See the [Fooyin build instructions](https://github.com/fooyin/fooyin/blob/master/BUILD.md) for detailed steps on installing libraries and setting up your build environment.
+Ensure all Fooyin dependencies are installed.
+See the [Fooyin build instructions](https://github.com/fooyin/fooyin/blob/master/BUILD.md) for details.
 
-
+---
 
 ## Build Instructions
 
-
-### 1. Clone this repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/Vo1dTear/fooyin-msuinput.git
 cd fooyin-msuinput
 ```
 
-
-### 2. Preparation
-
-Prepare the project (download Fooyin and inject msuinput into the source tree)
+### 2. Build the plugin
 
 ```bash
-cmake -S . -B build -G Ninja
-cmake --build build --target prepare_msu
+mkdir -p build
+cd build
+cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ..
+cmake --build .
 ```
 
-#### _OPTIONAL_
+* This generates the shared library:
 
-Update Fooyin to the latest version and inject msuinput into the new source tree:
+```
+build/msuinput/fyplugin_msuinput.so
+```
+
+---
+
+## Installing the Plugin (Optional)
+
+You can install the plugin either system-wide or locally:
+
+### a) System-wide installation
 
 ```bash
-cmake --build build --target fooyin_update
-cmake --build build --target prepare_msu
+sudo cmake --install .
 ```
 
+* Installs to:
 
-### 3. Build Fooyin normally
+```
+/usr/lib/fooyin/plugins/fyplugin_msuinput.so
+```
+
+### b) Local user installation
 
 ```bash
-mkdir -p build/fooyin-build
-cd build/fooyin-build
-cmake -G Ninja ../fooyin-src -DCMAKE_BUILD_TYPE=Release
-cmake --build . -- -j$(nproc)
+mkdir -p ~/.local/lib/fooyin/plugins
+cp build/msuinput/fyplugin_msuinput.so ~/.local/lib/fooyin/plugins/
 ```
-
-
-### 4. Copy the plugin to the project root (manual)
-
-```bash
-cd ../..
-cmake --build build --target copy_msu_lib
-```
-
-After this step, the compiled plugin `fyplugin_msuinput.so` will be available in the root of this repository.
-
-
-## Installing the Plugin
-
-There are two ways to install the MSU-1 plugin:
-
-1. **Manual installation:**
-   Copy the plugin to your local Fooyin plugins directory:
-
-```bash
-cp fyplugin_msuinput.so ~/.local/lib/fooyin/plugins/
-```
-
-2. **Install from Fooyin GUI:**
-   Open Fooyin, then go to **Settings → Plugins → Install...**, and select `fyplugin_msuinput.so` from your project folder.
