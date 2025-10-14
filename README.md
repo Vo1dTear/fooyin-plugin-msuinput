@@ -26,7 +26,7 @@ See the [Fooyin build instructions](https://github.com/fooyin/fooyin/blob/master
 
 ```bash
 git clone https://github.com/Vo1dTear/fooyin-plugin-msuinput.git
-cd fooyin-msuinput
+cd fooyin-plugin-msuinput
 ```
 
 ### 2. Build the plugin
