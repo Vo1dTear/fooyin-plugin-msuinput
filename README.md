@@ -21,7 +21,7 @@ See the [Fooyin build instructions](https://github.com/fooyin/fooyin/blob/master
 ### 1. Clone this repository
 
 ```bash
-git clone -b minimal https://github.com/Vo1dTear/fooyin-msuinput.git
+git clone -b minimal https://github.com/Vo1dTear/fooyin-plugin-msuinput.git
 cd fooyin-msuinput
 ```
 
