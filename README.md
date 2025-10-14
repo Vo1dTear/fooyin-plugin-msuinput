@@ -22,7 +22,7 @@ See the [Fooyin build instructions](https://github.com/fooyin/fooyin/blob/master
 
 ```bash
 git clone -b full https://github.com/Vo1dTear/fooyin-plugin-msuinput.git
-cd fooyin-msuinput
+cd fooyin-plugin-msuinput
 ```
 
 
