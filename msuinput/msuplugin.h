@@ -2,28 +2,28 @@
 
 #include <core/engine/inputplugin.h>
 #include <core/plugins/plugin.h>
+#include <gui/plugins/pluginconfigguiplugin.h>
 
-class QCheckBox;
 class QWidget;
 
 namespace Fooyin::MSU {
-
+    
     class MSUSettingsWidget;
-
+    
     class MSUPlugin : public QObject,
     public Plugin,
-    public InputPlugin
+    public InputPlugin,
+    public PluginConfigGuiPlugin
     {
         Q_OBJECT
-        Q_PLUGIN_METADATA(IID "org.fooyin.fooyin.plugin" FILE "msuinput.json")
-        Q_INTERFACES(Fooyin::Plugin Fooyin::InputPlugin)
-
+        Q_PLUGIN_METADATA(IID "org.fooyin.fooyin.plugin/1.0" FILE "msuinput.json")
+        Q_INTERFACES(Fooyin::Plugin Fooyin::InputPlugin Fooyin::PluginConfigGuiPlugin)
+        
     public:
         [[nodiscard]] QString inputName() const override;
         [[nodiscard]] InputCreator inputCreator() const override;
-
-        [[nodiscard]] bool hasSettings() const override;
-        void showSettings(QWidget* parent) override;
+        
+        [[nodiscard]] std::unique_ptr<PluginSettingsProvider> settingsProvider() const override;
     };
-
+    
 } // namespace Fooyin::MSU
