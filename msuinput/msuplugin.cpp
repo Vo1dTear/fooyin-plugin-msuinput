@@ -11,11 +11,9 @@ namespace Fooyin::MSU {
         class MSUSettingsProvider final : public PluginSettingsProvider
         {
         public:
-            void showSettings(QWidget* parent) override
+            QDialog* createSettings(QWidget* parent) override
             {
-                auto* dialog = new MSUSettingsWidget(parent);
-                dialog->setAttribute(Qt::WA_DeleteOnClose);
-                dialog->show();
+                return new MSUSettingsWidget(parent);
             }
         };
         
