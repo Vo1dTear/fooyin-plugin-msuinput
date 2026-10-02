@@ -1,0 +1,5 @@
+find_package(Fooyin REQUIRED)
+add_executable(msu_decoder_test decoder_test.cpp ../msuinput/msuinput.cpp)
+target_include_directories(msu_decoder_test PRIVATE ../msuinput)
+target_link_libraries(msu_decoder_test PRIVATE Fooyin::Core)
+add_test(NAME msu_decoder_test COMMAND msu_decoder_test)

@@ -25,8 +25,12 @@ namespace Fooyin::MSU {
         void stop() override;
         void seek(uint64_t pos) override;
         AudioBuffer readBuffer(size_t bytes) override;
+        ReadResult readAudio(size_t bytes) override;
 
     private:
+        void fail(const QString& message);
+        QString m_error;
+
         double m_gainDb{0.0}; // value in dB
 
         QIODevice* m_file{nullptr};
@@ -40,7 +44,7 @@ namespace Fooyin::MSU {
         qint64 m_loopTimeMs{0};  // loop point in milliseconds
 
         // --- loop count ---
-        quint32 m_loopCount{0}; // 0 = infinite
+        quint32 m_loopCount{0}; // Total passes including the initial pass; 0 = infinite
         quint32 m_loopsDone{0};
         bool m_enableLoop{true};
         DecoderOptions m_options;

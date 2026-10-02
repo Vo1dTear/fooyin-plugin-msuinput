@@ -38,6 +38,7 @@ namespace Fooyin::MSU {
 
         m_loopCount->setRange(0, 16);
         m_loopCount->setSingleStep(1);
+        m_loopCount->setToolTip(tr("Total passes: 1 plays once, 2 plays once and repeats from the loop point.\n0 = infinite."));
         m_loopCount->setSuffix(u" "_s + tr("times"));
 
         auto* loopHintLabel = new QLabel(tr("(0 = infinite)"), this);
