@@ -43,6 +43,7 @@ namespace Fooyin::MSU {
         quint32 m_loopCount{0}; // 0 = infinite
         quint32 m_loopsDone{0};
         bool m_enableLoop{true};
+        DecoderOptions m_options;
     };
 
     class MSUReader : public AudioReader

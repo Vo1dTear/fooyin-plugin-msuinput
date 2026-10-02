@@ -35,6 +35,8 @@ namespace Fooyin::MSU {
         const Track& track,
         DecoderOptions options)
     {
+        m_options = options;
+        m_loopsDone = 0;
         m_file = source.device;
         if (!m_file || m_file->size() <= 8) {
             qCWarning(MSU_LOG) << "Invalid MSU file";
@@ -98,7 +100,11 @@ namespace Fooyin::MSU {
 
             if (framesRemaining == 0) {
                 // --- Loop handling ---
-                if (m_enableLoop && (m_loopCount == 0 || m_loopsDone < m_loopCount)) {
+                // Bound the default infinite setting to one repeat when requested by fooyin.
+                const quint32 loopLimit = m_loopCount == 0 && m_options.testFlag(NoInfiniteLooping)
+                                              ? 1 : m_loopCount;
+                if (m_enableLoop && !m_options.testFlag(NoLooping)
+                    && (loopLimit == 0 || m_loopsDone < loopLimit)) {
                     if (m_loopFrame > 0 && m_loopFrame < m_totalFrames) {
                         // Loop from loop point
                         m_currentFrame = m_loopFrame;
@@ -110,7 +116,7 @@ namespace Fooyin::MSU {
                     ++m_loopsDone;
                 } else {
                     m_currentFrame = m_totalFrames; // reached end
-                    return {};
+                    break; // Return any audio already read before signalling EOF.
                 }
                 framesRemaining = m_totalFrames - m_currentFrame;
             }
@@ -126,6 +132,9 @@ namespace Fooyin::MSU {
             bytesReadTotal += read;
             m_currentFrame += m_format.framesForBytes(static_cast<int>(read));
         }
+
+        if (bytesReadTotal == 0)
+            return {};
 
         // Adjust buffer size to what was actually read
         if (bytesReadTotal < static_cast<qint64>(bytes)) {
