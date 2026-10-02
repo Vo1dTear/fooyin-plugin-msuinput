@@ -2,7 +2,7 @@
     "Name" : "MSU-1 PCM Decoder",
     "Version" : "@PROJECT_VERSION@",
     "Author" : "Vo1dTear",
-    "Copyright" : "Copyright © 2025",
+    "Copyright" : "Copyright © 2025, Vo1dTear <vo1dtear.01@gmail.com>",
     "License" : [
         "This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.",
         "",
