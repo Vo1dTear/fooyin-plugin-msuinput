@@ -2,69 +2,69 @@
 
 **Fooyin MSU-1 Plugin** is a CMake project that builds the `msuinput` plugin for Fooyin.
 
----
-
 ## Requirements
 
-* CMake ≥ 3.16
+* CMake 3.16 or newer
 * Git
-* Ninja
 * A C++ compiler (tested with GCC 15.2.1)
-
----
+* Qt and the fooyin development files, including `FooyinConfig.cmake`
+* Ninja or Make
 
 ## Dependencies
 
-Ensure all Fooyin dependencies are installed.
-See the [Fooyin build instructions](https://github.com/fooyin/fooyin/blob/master/BUILD.md) for details.
+The plugin depends on fooyin's Core and Gui libraries and their development dependencies.
 
----
+## Build
 
-## Build Instructions
+Clone the repository and configure a release build:
 
-### 1. Clone the repository
-
-```bash
+```sh
 git clone https://github.com/Vo1dTear/fooyin-plugin-msuinput.git
 cd fooyin-plugin-msuinput
-```
-
-### 2. Build the plugin
-
-```bash
 mkdir -p build
 cd build
-cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ..
+cmake -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    ..
 cmake --build .
 ```
 
-* This generates the shared library:
+If Ninja is not installed, omit `-G Ninja` and use the default CMake generator.
 
-```
+The build generates the following file, relative to the repository root:
+
+```text
 build/msuinput/fyplugin_msuinput.so
 ```
 
----
+## Installation
 
-## Installing the Plugin (Optional)
+Run the following commands from the `build` directory used above. Choose either a system-wide or a local user installation.
 
-You can install the plugin either system-wide or locally:
+### System-wide installation
 
-### a) System-wide installation
+Install the plugin using CMake:
 
-```bash
+```sh
 sudo cmake --install .
 ```
 
-* Installs to:
+For a fooyin installation using `/usr/lib/fooyin/plugins`, the installed file is:
 
-```
+```text
 /usr/lib/fooyin/plugins/fyplugin_msuinput.so
 ```
 
-### b) Local user installation
+The exact plugin directory can vary by fooyin installation. CMake uses the plugin installation path provided by fooyin.
 
-```bash
+### Local user installation
+
+Copy the generated plugin to fooyin's user plugin directory:
+
+```sh
 mkdir -p ~/.local/lib/fooyin/plugins
-cp build/msuinput/fyplugin_msuinput.so ~/.local/lib/fooyin/plugins/
+cp msuinput/fyplugin_msuinput.so ~/.local/lib/fooyin/plugins/
 ```
+
+Restart fooyin after installing or updating the plugin.

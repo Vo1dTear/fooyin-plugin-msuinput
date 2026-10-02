@@ -2,6 +2,7 @@
 #include "msusettingswidget.h"
 #include "msuinput.h"
 
+#include <core/coresettings.h>
 #include <gui/plugins/pluginsettingsprovider.h>
 
 namespace Fooyin::MSU {
@@ -30,10 +31,10 @@ namespace Fooyin::MSU {
         creator.decoder = []() {
             auto decoder = std::make_unique<MSUDecoder>();
             
-            QSettings settings;
-            double gainDb = settings.value("MSU/Gain", 0.0).toDouble();
-            quint32 loopCount = settings.value("MSU/LoopCount", 0).toUInt();
-            bool enableLoop = settings.value("MSU/EnableLoop", true).toBool();
+            Fooyin::FySettings settings;
+            double gainDb = settings.value("MSU-1/Gain", 0.0).toDouble();
+            quint32 loopCount = settings.value("MSU-1/LoopCount", 0).toUInt();
+            bool enableLoop = settings.value("MSU-1/EnableLoop", true).toBool();
             
             decoder->setGain(gainDb);
             decoder->setLoopCount(loopCount);

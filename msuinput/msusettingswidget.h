@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QDialog>
-#include <QSettings>
+#include <core/coresettings.h>
 #include <QCheckBox>
 #include <gui/widgets/doubleslidereditor.h>
 
@@ -21,10 +21,11 @@ namespace Fooyin::MSU {
         QSpinBox* m_loopCount{nullptr};
         DoubleSliderEditor* m_gain{nullptr};
 
-        QSettings m_settings;
+        Fooyin::FySettings m_settings;
 
         void accept() override;  // <-- override declaration
         void loadSettings();
+        void reset();
     };
 
 } // namespace Fooyin::MSU

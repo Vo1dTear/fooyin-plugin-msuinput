@@ -1,6 +1,6 @@
 {
     "Name" : "MSU-1 PCM Decoder",
-    "Version" : "0.1.1",
+    "Version" : "@PROJECT_VERSION@",
     "Author" : "Vo1dTear",
     "Copyright" : "Copyright © 2025",
     "License" : [

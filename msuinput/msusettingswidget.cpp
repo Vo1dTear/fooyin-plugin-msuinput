@@ -19,24 +19,12 @@ namespace Fooyin::MSU {
         setWindowTitle(tr("MSU-1 Settings"));
         setModal(true);
 
-        // OK / Cancel buttons
-        auto* buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
+        auto* buttons = new QDialogButtonBox(
+            QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Reset, this);
         connect(buttons, &QDialogButtonBox::accepted, this, &MSUSettingsWidget::accept);
         connect(buttons, &QDialogButtonBox::rejected, this, &MSUSettingsWidget::reject);
-
-        // Reset button
-        auto* resetButton = new QPushButton(tr("Reset"), this);
-        connect(resetButton, &QPushButton::clicked, this, [this]() {
-            m_gain->setValue(0.0);
-            m_loopCount->setValue(0);
-            m_enableLoop->setChecked(true);
-        });
-
-        // Bottom layout with Reset on the left and buttons on the right
-        auto* bottomRow = new QHBoxLayout();
-        bottomRow->addWidget(resetButton);
-        bottomRow->addStretch();
-        bottomRow->addWidget(buttons);
+        connect(buttons->button(QDialogButtonBox::Reset), &QAbstractButton::clicked,
+                this, &MSUSettingsWidget::reset);
 
         // Gain configuration
         m_gain->setRange(-12, 12);
@@ -77,25 +65,32 @@ namespace Fooyin::MSU {
         separator->setFrameShadow(QFrame::Sunken);
         layout->addRow(separator);
 
-        layout->addRow(bottomRow); // bottom row with Reset + OK/Cancel
+        layout->addRow(buttons);
 
-        // Load values from QSettings
+        // Load values from FySettings
         loadSettings();
     }
 
     void MSUSettingsWidget::accept()
     {
-        m_settings.setValue("MSU/Gain", m_gain->value());
-        m_settings.setValue("MSU/LoopCount", m_loopCount->value());
-        m_settings.setValue("MSU/EnableLoop", m_enableLoop->isChecked());
+        m_settings.setValue("MSU-1/Gain", m_gain->value());
+        m_settings.setValue("MSU-1/LoopCount", m_loopCount->value());
+        m_settings.setValue("MSU-1/EnableLoop", m_enableLoop->isChecked());
         done(Accepted);
+    }
+
+    void MSUSettingsWidget::reset()
+    {
+        m_gain->setValue(0.0);
+        m_loopCount->setValue(0);
+        m_enableLoop->setChecked(true);
     }
 
     void MSUSettingsWidget::loadSettings()
     {
-        m_gain->setValue(m_settings.value("MSU/Gain", 0.0).toDouble());
-        m_loopCount->setValue(m_settings.value("MSU/LoopCount", 0).toInt());
-        m_enableLoop->setChecked(m_settings.value("MSU/EnableLoop", true).toBool());
+        m_gain->setValue(m_settings.value("MSU-1/Gain", 0.0).toDouble());
+        m_loopCount->setValue(m_settings.value("MSU-1/LoopCount", 0).toInt());
+        m_enableLoop->setChecked(m_settings.value("MSU-1/EnableLoop", true).toBool());
     }
 
 } // namespace Fooyin::MSU

@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.16)
-project(msuinput LANGUAGES CXX)
 
 # Enable automatic Qt meta-object code generation
 set(CMAKE_AUTOMOC ON)
